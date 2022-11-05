@@ -28,6 +28,9 @@ void swap(int *a, int *b)
  */
 void quick_sort(int *array, size_t size)
 {
+	if (!array || size < 2)
+		return;
+
 	quick_sort_recursion(array, 0, size - 1, size);
 }
 
@@ -72,13 +75,22 @@ int partition(int *array, int low, int high, size_t size)
 	i = low;
 	for (j = low; j < high; j++)
 	{
-		if (array[j] <= pivot_value)
+		if (array[j] < pivot_value)
 		{
-			swap(&array[i], &array[j]);
-			print_array(array, size);
+			if (i < j)
+			{
+				swap(&array[i], &array[j]);
+				print_array(array, size);
+			}
 			i++;
 		}
 	}
-	swap(&array[i], &array[high]);
+
+	if (array[i] > array[high])
+	{
+		swap(&array[i], &array[high]);
+		print_array(array, size);
+	}
+
 	return (i);
 }
